@@ -23,3 +23,28 @@ end;
 /
 
 spool off
+
+set serveroutput on;
+declare 
+ i integer := 1;
+ query varchar2(5000) :=
+'select distinct
+        m.home_team_api_id,
+        m.home_player_1,
+        s.idsaison
+ from datal3.match m, saison s
+ where m.home_player_1 is not null
+   and to_date(m.mdate, ''yyyy-mm-dd hh24:mi:ss'')
+       between s.datedebut and s.datefin';
+begin
+  dbms_output.put_line('insert into engager (equipeId, joueurId, saisonId)');
+  loop
+	dbms_output.put_line(replace(query, 'player_1', 'player_' || i));
+	dbms_output.put_line('union');
+	dbms_output.put_line(replace(replace(query, 'player_1', 'player_' || i),'home', 'away'));
+	exit when i = 11;
+	dbms_output.put_line('union');
+	i := i+1;
+  end loop;
+ end;
+ 

@@ -241,7 +241,6 @@ and m.away_player_11 is not null;
 
 COMMIT;
 
-
 INSERT INTO MARQUER (matchId, joueurId, MINUTE)
 SELECT m.matchId, j.joueurId, 25
 FROM Match m, Equipe el, Equipe ev, Joueur j
@@ -342,15 +341,19 @@ GRANT L3IT24_INTERNAUTE TO INTERNAUTE;
 
 COMMIT;
 
+SELECT *
+FROM Joueur j
+WHERE j.nom_joueur = 'Angel'
+AND j.PRENOM_JOUEUR = 'Di Maria';
 
+INSERT INTO Match ( matchId , dateMatch , scoreLocale ,scoreVisiteur , equipeLocale ,equipeVisiteur )
+SELECT 
+        m.ID,
+        TO_DATE(m.MDATE,'YYYY-MM-DD HH24:MI:SS'),
+        m.HOME_TEAM_GOAL,
+        m.AWAY_TEAM_GOAL,
+        m.HOME_TEAM_API_ID,
+        m.AWAY_TEAM_API_ID
+FROM dataL3.Match m;
 
-
-
-
-
-
-
-
-
-
-
+COMMIT;
